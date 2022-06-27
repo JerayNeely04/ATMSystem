@@ -8,8 +8,9 @@ public class ATMSystem {
   }
 
   static class backAccount {
+    double Balance; // holds the current balance
+    double savBalance; // holds the balance of saving account
     double checkBalance;
-    double savBalance;
     int prevTransaction;
     String custName;
     int accountNum;
@@ -22,18 +23,10 @@ public class ATMSystem {
     public void deposit(double amount) {
       Scanner dsc = new Scanner(System.in);
       double deposit = dsc.nextDouble();
-      
-      amount = deposit; // sets deposit variable to amount
 
-      if (amount != 0) {
-        checkBalance = amount + checkBalance;
-        System.out.println("Balance Available:" + " " + checkBalance);
-        System.out.println("-----------------------------------");
-      } else if (amount == 0) {
-        System.out.println("No money was deposited");
-      }
-      
-      
+      amount = deposit; // sets deposit variable to amount
+      Balance = amount;
+
     }
 
     /**
@@ -45,13 +38,13 @@ public class ATMSystem {
       double withdraw = wsc.nextDouble();
       amount = withdraw;
 
-      if (checkBalance == 0) {
+      if (Balance == 0) {
         System.out.println("insufficent funds");
-      } else if (checkBalance != 0) {
+      } else if (Balance != 0) {
         ;
 
-        checkBalance = checkBalance - amount;
-        System.out.println("Available Balance:" + savBalance);
+        Balance = Balance - amount;
+        System.out.println("Available Balance:" + Balance);
         System.out.println("-----------------------------------");
       }
     }
@@ -103,11 +96,37 @@ public class ATMSystem {
      * displays the deposit menu when selected.
      */
     public void depositMenu() {
+      Scanner sc = new Scanner(System.in);
 
       System.out.println("****DEPOSIT SCREEN****");
-      System.out.println("Please Enter Deposit Amount");
-      deposit(checkBalance);
-      anotherTransaction();
+      System.out.println("1) Checking  2)savings");
+      int input = sc.nextInt();
+
+      if (input == 1) {
+        System.out.println("Please Enter Deposit Amount");
+        deposit(Balance);
+
+        if (Balance != 0) {
+          checkBalance = Balance + checkBalance;
+          System.out.println("Balance Available:" + " " + checkBalance);
+          System.out.println("-----------------------------------");
+        } else if (Balance == 0) {
+          System.out.println("No money was deposited");
+        }
+        anotherTransaction();
+      } else if (input == 2) {
+        System.out.println("Please Enter Deposit Amount");
+        deposit(Balance);
+
+        if (Balance != 0) {
+          savBalance = Balance + savBalance;
+          System.out.println("Balance Available:" + " " + savBalance);
+          System.out.println("-----------------------------------");
+        } else if (Balance == 0) {
+          System.out.println("No money was deposited");
+        }
+        anotherTransaction();
+      }
 
     }
 
@@ -117,7 +136,7 @@ public class ATMSystem {
     public void withdrawMenu() {
       System.out.println("****WITHDRAW SCREEN****");
       System.out.println("Please Enter Withdraw Amount");
-      withDraw(checkBalance);
+      withDraw(Balance);
       anotherTransaction();
     }
 
@@ -125,7 +144,30 @@ public class ATMSystem {
      * Displays the transfer menu allow to transfer from checking to saving account
      */
     public void transferMenu() {
+      Scanner prompt = new Scanner(System.in);
       System.out.println("****TRANSFER SCREEN****");
+      System.out.println("1) Transer into Checking  2)Transfer into Saving");
+      int input = prompt.nextInt();
+      if(input == 1) {
+        System.out.println("Enter Transfer Amount into Checking");
+        Scanner sc = new Scanner(System.in);
+
+        double amt = sc.nextDouble();
+        double transfer = savBalance - (savBalance - amt);
+        
+        checkBalance = transfer+ checkBalance;
+        anotherTransaction();
+      }
+      else if(input ==2) {
+      System.out.println("Enter Transfer Amount into Saving");
+      Scanner sc = new Scanner(System.in);
+
+      double amt = sc.nextDouble();
+      checkBalance = checkBalance - amt;
+
+      savBalance = checkBalance + savBalance;
+      anotherTransaction();
+      }
     }
 
     /**
@@ -141,8 +183,7 @@ public class ATMSystem {
       if (input == 1) {
         System.out.println("Available Checking Balance:" + checkBalance);
       } else if (input == 2) {
-        savBalance = checkBalance;
-        
+
         System.out.println("Available Saving Balance:" + savBalance);
       }
       anotherTransaction();
