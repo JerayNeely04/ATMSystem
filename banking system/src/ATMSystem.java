@@ -1,4 +1,5 @@
 import java.util.Scanner;
+
 /**
  * 
  * @author jerayneely-speaks
@@ -14,11 +15,11 @@ public class ATMSystem {
   static class backAccount {
     double Balance; // holds the current balance
     double savBalance; // holds the balance of saving account
-    double checkBalance; //holds the balance of the checking account
+    double checkBalance; // holds the balance of the checking account
     int prevTransaction;
     String custName;
-    int accountNum; 
-    int accountpin; //the pin related to the account number 
+    int accountNum;
+    int accountpin; // the pin related to the account number
 
     /**
      * 
@@ -41,8 +42,8 @@ public class ATMSystem {
       Scanner wsc = new Scanner(System.in);
       double withdraw = wsc.nextDouble();
       amount = withdraw;
+      Balance = amount;
 
-    
     }
 
     /**
@@ -134,13 +135,13 @@ public class ATMSystem {
       System.out.println("****WITHDRAW SCREEN****");
       System.out.println("1) Checking   2)Saving");
       int input = sc.nextInt();
-         
+
       if (input == 1) {
         System.out.println("Please Enter Deposit Amount");
         withDraw(Balance);
 
-        if (checkBalance!= 0) {
-          checkBalance = checkBalance - Balance  ;
+        if (checkBalance != 0) {
+          checkBalance = checkBalance - Balance;
           System.out.println("Balance Available:" + " " + checkBalance);
           System.out.println("-----------------------------------");
         } else if (checkBalance == 0) {
@@ -152,7 +153,7 @@ public class ATMSystem {
         withDraw(Balance);
 
         if (savBalance != 0) {
-          savBalance =savBalance - Balance;
+          savBalance = savBalance - Balance;
           System.out.println("Balance Available:" + " " + savBalance);
           System.out.println("-----------------------------------");
         } else if (savBalance == 0) {
@@ -170,8 +171,7 @@ public class ATMSystem {
       Scanner prompt = new Scanner(System.in);
       System.out.println("****TRANSFER SCREEN****");
       System.out.println("1) Transer into Checking  2)Transfer into Saving");
-      
-      
+
       int input = prompt.nextInt();
       if (input == 1) {
         System.out.println("Enter Transfer Amount into Checking");
@@ -182,6 +182,8 @@ public class ATMSystem {
         savBalance = savBalance - transfer;
 
         checkBalance = transfer + checkBalance;
+        System.out.println("New Balance:"+" "+ checkBalance);
+        System.out.println("----------------------------");
         anotherTransaction();
       } else if (input == 2) {
         System.out.println("Enter Transfer Amount into Saving");
@@ -192,6 +194,8 @@ public class ATMSystem {
         checkBalance = checkBalance - transfer;
 
         savBalance = transfer + savBalance;
+        System.out.println("New Balance: "+" "+ savBalance);
+        System.out.println("----------------------------");
         anotherTransaction();
       }
     }
@@ -231,7 +235,7 @@ public class ATMSystem {
       } else if (input == 2) {
         System.out.print("Transcation Canceled");
         displayMenu();
-
+        System.out.println("----------------------------");
       }
 
     }
